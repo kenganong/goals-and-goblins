@@ -23,13 +23,14 @@ def main():
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         running = False
-    mouse_pos = pygame.mouse.get_pos()
+      else:
+        screen.handle_event(event)
 
     if not screen.painted:
       surface.fill(context.context['ui_background_color'])
-      screen.paint(surface, mouse_pos)
+      screen.paint(surface)
     else:
-      screen.update(surface, mouse_pos)
+      screen.update(surface)
 
     pygame.display.flip()
     clock.tick(15)
