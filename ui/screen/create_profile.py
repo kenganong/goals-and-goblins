@@ -1,5 +1,7 @@
+from datetime import date
 import pygame
 from context import context
+from model import Profile
 from ui.component.button import Button
 from ui.component.text_entry import TextEntry
 
@@ -35,6 +37,11 @@ class CreateProfile:
   def create(self):
     name = self.text_entry.text
     if len(name) > 0:
-      print('Creating {}'.format(name))
+      today = date.today().isoformat()
+      profile = Profile(name=name, created_date=today, modified_date=today)
+      session = context['db_session']
+      session.add(profile)
+      session.commit()
+      self.manager.set_screen('list_profiles')
   def cancel(self):
     self.manager.set_screen('list_profiles')
