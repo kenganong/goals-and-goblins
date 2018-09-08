@@ -1,8 +1,8 @@
 import pygame
 import context
 from model import Base, Profile
+from ui.screen.screen_manager import ScreenManager
 from ui.component.button import Button
-from ui.screen.list_profiles import ListProfiles
 
 def main():
   pygame.init()
@@ -17,23 +17,21 @@ def main():
   clock = pygame.time.Clock()
   running = True
 
-  screen = ListProfiles()
+  sm = ScreenManager()
+  sm.set_home()
 
   while running:
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         running = False
       else:
-        screen.handle_event(event)
+        sm.screen.handle_event(event)
 
-    if screen.next_screen:
-      screen = screen.next_screen
-
-    if not screen.painted:
+    if not sm.screen.painted:
       surface.fill(context.context['ui_background_color'])
-      screen.paint(surface)
+      sm.screen.paint(surface)
     else:
-      screen.update(surface)
+      sm.screen.update(surface)
 
     pygame.display.flip()
     clock.tick(15)
