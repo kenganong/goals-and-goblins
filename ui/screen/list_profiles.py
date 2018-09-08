@@ -2,6 +2,7 @@ import functools
 import pygame
 from context import context
 from model import Profile
+from ui.screen.create_profile import CreateProfile
 from ui.component.button import Button
 
 class ListProfiles:
@@ -21,6 +22,7 @@ class ListProfiles:
                                pygame.Rect(100, 150 + 100 * len(self.buttons), 600, 98),
                                font, 'New Profile', text, color, focus))
     self.painted = False
+    self.next_screen = None
   def paint(self, screen):
     screen.blit(self.label, (100, 50))
     self.update(screen)
@@ -34,4 +36,4 @@ class ListProfiles:
   def choose_profile(self, profile):
     print('clicked {}'.format(profile.name))
   def add_profile(self):
-    print('clicked add profile')
+    self.next_screen = CreateProfile()

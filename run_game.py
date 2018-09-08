@@ -26,6 +26,9 @@ def main():
       else:
         screen.handle_event(event)
 
+    if screen.next_screen:
+      screen = screen.next_screen
+
     if not screen.painted:
       surface.fill(context.context['ui_background_color'])
       screen.paint(surface)
