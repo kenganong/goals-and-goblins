@@ -16,14 +16,19 @@ def create_db_session(db_name):
   return session
 
 def set_theme():
-  font = pygame.font.SysFont('timesnewroman', 24)
-  context['ui_font'] = font
+  theme = Theme()
+  context['theme'] = theme
+  theme.font = pygame.font.SysFont('timesnewroman', 24)
+  theme.small_font = pygame.font.SysFont('timesnewroman', 12)
   black = pygame.Color('black')
   white = pygame.Color('white')
   green = pygame.Color(0, 150, 0)
   bright_green = pygame.Color(0, 200, 0)
-  context['ui_background_color'] = black
-  context['ui_label_text_color'] = white
-  context['ui_button_text_color'] = white
-  context['ui_button_color'] = green
-  context['ui_button_focus_color'] = bright_green
+  theme.background_color = black
+  theme.label_text_color = white
+  theme.button_text_color = white
+  theme.button_color = green
+  theme.button_focus_color = bright_green
+
+class Theme:
+  pass

@@ -1,17 +1,16 @@
 import pygame
 from pygame.locals import *
+from ui.component.component import Component
 
-class TextEntry:
-  def __init__(self, position, font, text_color, background_color):
-    self.position = position
+class TextEntry(Component):
+  def __init__(self, position, width, font, text='', color=None, background=None):
+    super().__init__(position)
     self.font = font
-    self.text_color = text_color
-    self.background_color = background_color
-    self.text = ''
+    self.color = color
+    self.background = background
+    self.text = text
     self.cursor_index = 0
-    self.rect = pygame.Rect(position, (0, 0))
-    self.focus = False
-    self.changed = True
+    self.surface = pygame.Surface((width, font.get_linesize()))
   def handle_event(self, event):
     if self.focus and event.type == pygame.KEYDOWN:
       if event.key == K_LEFT:
@@ -28,21 +27,21 @@ class TextEntry:
         if self.cursor_index > 0:
           self.text = self.text[:self.cursor_index - 1] + self.text[self.cursor_index:]
           self.cursor_index -= 1
-          self.changed = True
+          self.dirty = True
       elif event.key == K_DELETE:
         if self.cursor_index < len(self.text):
           self.text = self.text[:self.cursor_index] + self.text[self.cursor_index + 1:]
-          self.changed = True
+          self.dirty = True
       else:
         eu = event.unicode
         if eu >= 'a' and eu <= 'z' or eu >= 'A' and eu <= 'Z':
           self.text = self.text[:self.cursor_index] + eu + self.text[self.cursor_index:]
           self.cursor_index += 1
-          self.changed = True
-  def update(self, surface):
-    if self.changed:
-      pygame.draw.rect(surface, self.background_color, self.rect) #Clear the old
-      text_surface = self.font.render(self.text, False, self.text_color)
-      self.rect = text_surface.get_rect(topleft=self.position)
-      surface.blit(text_surface, self.position)
-      self.changed = False
+          self.dirty = True
+  def update(self, screen):
+    if self.dirty:
+      self.surface.fill(self.background)
+      text_surface = self.font.render(self.text, False, self.color)
+      self.surface.blit(text_surface, (0, 0))
+      screen.blit(self.surface, self.position)
+      self.dirty = False

@@ -1,11 +1,13 @@
 from ui.screen.list_profiles import ListProfiles
 from ui.screen.create_profile import CreateProfile
+from ui.screen.create_goals import CreateGoal
 
 class ScreenManager:
   def __init__(self):
     self.screen_map = {}
     self.screen_map['list_profiles'] = ListProfiles
     self.screen_map['create_profile'] = CreateProfile
+    self.screen_map['create_goal'] = CreateGoal
     self.bread_crumbs = []
     self.screen = None
   def set_home(self):
