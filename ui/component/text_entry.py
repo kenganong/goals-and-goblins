@@ -3,16 +3,26 @@ from pygame.locals import *
 from ui.component.component import Component
 
 class TextEntry(Component):
-  def __init__(self, position, width, font, text='', color=None, background=None):
+  def __init__(self, position, width, font, text='', color=None, background=None, click_func=None):
     super().__init__(position)
     self.font = font
+    if color == None:
+      color = pygame.Color('black')
+    if background == None:
+      background = pygame.Color('white')
     self.color = color
     self.background = background
+    self.click_func = click_func
     self.text = text
     self.cursor_index = 0
     self.surface = pygame.Surface((width, font.get_linesize()))
   def handle_event(self, event):
-    if self.focus and event.type == pygame.KEYDOWN:
+    if self.click_func and event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+      pos = (event.pos[0] - self.position[0], event.pos[1] - self.position[1])
+      collide = self.surface.get_rect().collidepoint(pos)
+      if collide:
+        self.click_func()
+    elif self.focus and event.type == pygame.KEYDOWN:
       if event.key == K_LEFT:
         if self.cursor_index > 0:
           self.cursor_index -= 1

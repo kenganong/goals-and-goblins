@@ -12,14 +12,14 @@ class CreateProfile:
     theme = context['theme']
     self.label = Label((100, 50), theme.font, 'Name:', theme.label_text_color, theme.background_color)
     self.text_entry = TextEntry((110 + self.label.surface.get_width(), 50), 200, theme.font,
-                                color=theme.label_text_color, background=theme.background_color)
+                                color=theme.entry_text_color, background=theme.entry_background_color)
     self.text_entry.focus = True
-    self.add_button = Button(self.create, pygame.Rect(100, 150, 600, 98),
-                             theme.font, 'Add', theme.button_text_color,
-                             theme.button_color, theme.button_focus_color)
-    self.cancel_button = Button(self.cancel, pygame.Rect(100, 250, 600, 98),
-                                theme.font, 'Cancel', theme.button_text_color,
-                                theme.button_color, theme.button_focus_color)
+    self.add_button = Button((100, 150), (600, 98), theme.font, 'Add', click_func=self.create,
+                             text_color=theme.label_text_color, color=theme.button_color,
+                             focus_color=theme.button_focus_color)
+    self.cancel_button = Button((100, 250), (600, 98), theme.font, 'Cancel', click_func=self.cancel,
+                                text_color=theme.label_text_color, color=theme.button_color,
+                                focus_color=theme.button_focus_color)
     self.painted = False
   def paint(self, screen):
     self.update(screen)

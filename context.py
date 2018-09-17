@@ -22,13 +22,17 @@ def set_theme():
   theme.small_font = pygame.font.SysFont('timesnewroman', 12)
   black = pygame.Color('black')
   white = pygame.Color('white')
+  grey = pygame.Color(50, 50, 50)
   green = pygame.Color(0, 150, 0)
   bright_green = pygame.Color(0, 200, 0)
   theme.background_color = black
   theme.label_text_color = white
+  theme.entry_text_color = white
+  theme.entry_background_color = grey
   theme.button_text_color = white
   theme.button_color = green
   theme.button_focus_color = bright_green
+  theme.button_disabled_color = grey
 
 class Theme:
   pass
