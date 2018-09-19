@@ -28,7 +28,7 @@ def main():
         sm.screen.handle_event(event)
 
     if not sm.screen.painted:
-      surface.fill(context.context['ui_background_color'])
+      surface.fill(context.context['theme'].background_color)
       sm.screen.paint(surface)
     else:
       sm.screen.update(surface)

@@ -3,30 +3,30 @@ import pygame
 from context import context
 from model import Profile
 from ui.component.button import Button
-from ui.component.text_entry import TextEntry
+from ui.component.label import Label
+from ui.component.text_entry import TextEntry, ALPHA
 
 class CreateProfile:
   def __init__(self, manager):
     self.manager = manager
-    font = context['ui_font']
-    label_color = context['ui_label_text_color']
-    bg_color = context['ui_background_color']
-    text_color = context['ui_button_text_color']
-    button_color = context['ui_button_color']
-    focus_color = context['ui_button_focus_color']
-    self.label = font.render('Name:', False, label_color)
-    self.text_entry = TextEntry((110 + self.label.get_width(), 50), font, label_color, bg_color)
+    theme = context['theme']
+    self.label = Label((100, 50), theme.font, 'Name:', theme.label_text_color, theme.background_color)
+    self.text_entry = TextEntry((110 + self.label.surface.get_width(), 50), 200, theme.font,
+                                color=theme.entry_text_color, background=theme.entry_background_color)
+    self.text_entry.set_allowed(ALPHA)
     self.text_entry.focus = True
-    self.add_button = Button(self.create, pygame.Rect(100, 150, 600, 98),
-                             font, 'Add', text_color, button_color, focus_color)
-    self.cancel_button = Button(self.cancel, pygame.Rect(100, 250, 600, 98),
-                                font, 'Cancel', text_color, button_color, focus_color)
+    self.add_button = Button((100, 150), (600, 98), theme.font, 'Add', click_func=self.create,
+                             text_color=theme.label_text_color, color=theme.button_color,
+                             focus_color=theme.button_focus_color)
+    self.cancel_button = Button((100, 250), (600, 98), theme.font, 'Cancel', click_func=self.cancel,
+                                text_color=theme.label_text_color, color=theme.button_color,
+                                focus_color=theme.button_focus_color)
     self.painted = False
   def paint(self, screen):
-    screen.blit(self.label, (100, 50))
     self.update(screen)
     self.painted = True
   def update(self, screen):
+    self.label.update(screen)
     self.text_entry.update(screen)
     self.add_button.update(screen)
     self.cancel_button.update(screen)
