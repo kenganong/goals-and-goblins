@@ -4,7 +4,7 @@ from context import context
 from model import Profile
 from ui.component.button import Button
 from ui.component.label import Label
-from ui.component.text_entry import TextEntry
+from ui.component.text_entry import TextEntry, ALPHA
 
 class CreateProfile:
   def __init__(self, manager):
@@ -13,6 +13,7 @@ class CreateProfile:
     self.label = Label((100, 50), theme.font, 'Name:', theme.label_text_color, theme.background_color)
     self.text_entry = TextEntry((110 + self.label.surface.get_width(), 50), 200, theme.font,
                                 color=theme.entry_text_color, background=theme.entry_background_color)
+    self.text_entry.set_allowed(ALPHA)
     self.text_entry.focus = True
     self.add_button = Button((100, 150), (600, 98), theme.font, 'Add', click_func=self.create,
                              text_color=theme.label_text_color, color=theme.button_color,

@@ -2,6 +2,10 @@ import pygame
 from pygame.locals import *
 from ui.component.component import Component
 
+ALPHA = 1
+NUMERIC = 2
+ALPHANUMERIC = 3
+
 class TextEntry(Component):
   def __init__(self, position, width, font, text='', color=None, background=None, click_func=None):
     super().__init__(position)
@@ -16,6 +20,14 @@ class TextEntry(Component):
     self.text = text
     self.cursor_index = 0
     self.surface = pygame.Surface((width, font.get_linesize()))
+    self.set_allowed(ALPHANUMERIC)
+  def set_allowed(self, allow):
+    self.allow_alpha = False
+    self.allow_number = False
+    if allow == ALPHA or allow == ALPHANUMERIC:
+      self.allow_alpha = True
+    if allow == NUMERIC or allow == ALPHANUMERIC:
+      self.allow_number = True
   def handle_event(self, event):
     if self.click_func and event.type == pygame.MOUSEBUTTONUP and event.button == 1:
       pos = (event.pos[0] - self.position[0], event.pos[1] - self.position[1])
@@ -44,7 +56,8 @@ class TextEntry(Component):
           self.dirty = True
       else:
         eu = event.unicode
-        if eu >= 'a' and eu <= 'z' or eu >= 'A' and eu <= 'Z':
+        if ((self.allow_alpha and (eu >= 'a' and eu <= 'z' or eu >= 'A' and eu <= 'Z'))
+            or (self.allow_number and eu >= '0' and eu <= '9')):
           self.text = self.text[:self.cursor_index] + eu + self.text[self.cursor_index:]
           self.cursor_index += 1
           self.dirty = True
