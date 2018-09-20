@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -25,6 +25,7 @@ class Goal(Base):
   _words = Column(String)
   period = Column(String)
   number = Column(Integer)
+  checkins = relationship('Checkin', back_populates='goal')
 
   @hybrid_property
   def words(self):
@@ -32,3 +33,13 @@ class Goal(Base):
   @words.setter
   def words(self, words):
     self._words = ','.join(words)
+
+class Checkin(Base):
+  __tablename__ = 'checkin'
+
+  id = Column(Integer, primary_key=True)
+  goal_id = Column(Integer, ForeignKey('goal.id'))
+  goal = relationship('Goal', back_populates='checkins')
+  date = Column(String)
+  number = Column(Integer)
+  __table_args__ = (UniqueConstraint('goal_id', 'date'),)

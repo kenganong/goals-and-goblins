@@ -17,7 +17,8 @@ class CreateProfile:
     self.text_entry.focus = True
     self.add_button = Button((100, 150), (600, 98), theme.font, 'Add', click_func=self.create,
                              text_color=theme.label_text_color, color=theme.button_color,
-                             focus_color=theme.button_focus_color)
+                             focus_color=theme.button_focus_color, disabled_color=theme.button_disabled_color)
+    self.add_button.set_enabled(False)
     self.cancel_button = Button((100, 250), (600, 98), theme.font, 'Cancel', click_func=self.cancel,
                                 text_color=theme.label_text_color, color=theme.button_color,
                                 focus_color=theme.button_focus_color)
@@ -32,6 +33,7 @@ class CreateProfile:
     self.cancel_button.update(screen)
   def handle_event(self, event):
     self.text_entry.handle_event(event)
+    self.add_button.set_enabled(len(self.text_entry.text) > 0)
     self.add_button.handle_event(event)
     self.cancel_button.handle_event(event)
   def create(self):
