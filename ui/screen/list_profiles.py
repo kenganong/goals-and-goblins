@@ -32,6 +32,6 @@ class ListProfiles:
       button.handle_event(event)
   def choose_profile(self, profile):
     context['profile'] = profile
-    self.manager.set_screen('create_goal')
+    self.manager.select_profile()
   def add_profile(self):
     self.manager.set_screen('create_profile')

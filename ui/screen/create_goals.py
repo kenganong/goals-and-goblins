@@ -14,7 +14,7 @@ class CreateGoal:
     theme = context['theme']
     self.label = Label((100, 50), theme.font, 'Create New Goal', theme.label_text_color, theme.background_color)
     self.goal_text = []
-    self.goal_text.append(Label((100, 150), theme.font, 'Reduce the number of ',
+    self.goal_text.append(Label((100, 150), theme.font, 'Reduce how many ',
                                 theme.label_text_color, theme.background_color))
     self.goal_text.append(Label((100 + self.goal_text[0].surface.get_width() + blank_width, 150), theme.font, ' of ',
                                 theme.label_text_color, theme.background_color))
