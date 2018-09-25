@@ -1,4 +1,6 @@
+from datetime import date
 from context import context
+import model
 from ui.screen.list_profiles import ListProfiles
 from ui.screen.create_profile import CreateProfile
 from ui.screen.create_goals import CreateGoal
@@ -23,9 +25,22 @@ class ScreenManager:
   def select_profile(self):
     profile = context['profile']
     if any(x.end_date == None for x in profile.goals):
-      self.set_screen('checkin')
+      self.perform_checkin()
     else:
       self.set_screen('create_goal')
+  def perform_checkin(self):
+    today = date.today().isoformat()
+    profile = context['profile']
+    need_checkin = False
+    for goal in profile.goals:
+      last_checkin = (context['db_session'].query(model.Checkin).filter(model.Checkin.goal_id == goal.id)
+                                           .order_by(model.Checkin.date.desc()).first())
+      if not last_checkin or last_checkin.date != today:
+        need_checkin = True
+    if need_checkin:
+      self.set_screen('checkin')
+    else:
+      self.set_screen('shop')
   def back(self):
     self.bread_crumbs.pop()
     name = self.bread_crumbs.pop()

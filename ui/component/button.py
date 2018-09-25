@@ -3,7 +3,7 @@ from ui.component.component import Component
 
 class Button(Component):
   def __init__(self, position, size, font, text, click_func=None, text_color=None, color=None,
-               focus_color=None, disabled_color=None):
+               focus_color=None, disabled_color=None, align='center'):
     super().__init__(position)
     self.surface = pygame.Surface(size)
     if text_color == None:
@@ -19,7 +19,12 @@ class Button(Component):
     self.disabled_color = disabled_color
     self.label = font.render(text, True, text_color)
     label_size = self.label.get_size()
-    self.label_position = ((size[0] - label_size[0]) / 2, (size[1] - label_size[1]) / 2)
+    if align == 'left':
+      self.label_position = (0, (size[1] - label_size[1]) / 2)
+    elif align == 'right':
+      self.label_position = (size[0] - label_size[0], (size[1] - label_size[1]) / 2)
+    elif align == 'center':
+      self.label_position = ((size[0] - label_size[0]) / 2, (size[1] - label_size[1]) / 2)
     self.func = click_func
     self.enabled = True
   def set_enabled(self, enabled):

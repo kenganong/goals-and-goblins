@@ -11,9 +11,8 @@ def main():
   context.set_theme()
   profiles = session.query(Profile).order_by(Profile.name).all()
 
-  width = 800
-  height = 800
-  surface = pygame.display.set_mode((width,height))
+  context.set_size(1000, 800)
+  surface = pygame.display.set_mode((context.context['width'], context.context['height']))
   clock = pygame.time.Clock()
   running = True
 
