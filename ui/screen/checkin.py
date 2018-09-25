@@ -42,6 +42,10 @@ class Checkin:
     number = int(self.goal_input.text)
     checkin = model.Checkin(goal=self.goal, date=self.today, number=number)
     session = context['db_session']
+    for character in self.goal.characters:
+      character.gold += 1
+      character.modified_date = self.today
+      session.add(character)
     session.add(checkin)
     session.commit()
     self.manager.set_screen('shop')

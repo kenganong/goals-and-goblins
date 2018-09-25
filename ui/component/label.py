@@ -8,15 +8,23 @@ class Label(Component):
       color = pygame.Color('black')
     if background == None:
       background = pygame.Color('white')
-    self.surface = font.render(text, True, color, background)
-    if width >= 0:
+    self.color = color
+    self.background = background
+    self.width = width
+    self.align = align
+    self.font = font
+    self.set_text(text)
+  def set_text(self, text):
+    self.surface = self.font.render(text, True, self.color, self.background)
+    if self.width >= 0:
       text_surface = self.surface
-      if align == 'center':
-        left = (width - text_surface.get_width()) / 2
-      elif align == 'right':
-        left = width - text_surface.get_width()
+      if self.align == 'center':
+        left = (self.width - text_surface.get_width()) / 2
+      elif self.align == 'right':
+        left = self.width - text_surface.get_width()
       else:
         left = 0
-      self.surface = pygame.Surface((width, font.get_linesize()))
-      self.surface.fill(background)
+      self.surface = pygame.Surface((self.width, self.font.get_linesize()))
+      self.surface.fill(self.background)
       self.surface.blit(text_surface, (left, 0))
+    self.dirty = True

@@ -15,6 +15,10 @@ def create_db_session(db_name):
   context['db_session'] = session
   return session
 
+def set_size(width, height):
+  context['width'] = width
+  context['height'] = height
+
 def set_theme():
   theme = Theme()
   context['theme'] = theme

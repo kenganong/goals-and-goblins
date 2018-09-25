@@ -1,7 +1,7 @@
 from datetime import date
 import pygame
 from context import context
-from model import Profile
+from model import Profile, Character
 from ui.component.button import Button
 from ui.component.label import Label
 from ui.component.text_entry import TextEntry, ALPHA
@@ -43,6 +43,9 @@ class CreateProfile:
       profile = Profile(name=name, created_date=today, modified_date=today)
       session = context['db_session']
       session.add(profile)
+      # TODO: when supporting multiple characters per profile, move these
+      character = Character(profile=profile, name=name, created_date=today, modified_date=today, gold=0, enemies=0)
+      session.add(character)
       session.commit()
       self.manager.set_screen('list_profiles')
   def cancel(self):

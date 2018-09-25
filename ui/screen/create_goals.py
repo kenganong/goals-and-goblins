@@ -109,6 +109,8 @@ class CreateGoal:
     goal.words = words
     session = context['db_session']
     session.add(goal)
+    # TODO: Move this after profiles have more than one character
+    goal.characters.append(context['profile'].characters[0])
     session.commit()
     self.manager.set_screen('checkin')
   def focus_on(self, entry):
