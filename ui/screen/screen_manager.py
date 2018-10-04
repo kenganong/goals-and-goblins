@@ -6,6 +6,7 @@ from ui.screen.create_profile import CreateProfile
 from ui.screen.create_goals import CreateGoal
 from ui.screen.checkin import Checkin
 from ui.screen.shop import Shop
+from ui.screen.level import Level
 
 class ScreenManager:
   def __init__(self):
@@ -15,6 +16,7 @@ class ScreenManager:
     self.screen_map['create_goal'] = CreateGoal
     self.screen_map['checkin'] = Checkin
     self.screen_map['shop'] = Shop
+    self.screen_map['level'] = Level
     self.bread_crumbs = []
     self.screen = None
   def set_home(self):

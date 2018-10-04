@@ -49,7 +49,10 @@ class Shop:
     self.shop.handle_event(event)
     self.enter.handle_event(event)
   def enter_dungeon(self):
-    pass
+    context['run_quest'] = 1
+    context['run_stage'] = 1
+    context['run_character'] = self.character_sheet.run
+    self.manager.set_screen('level')
   def buy(self, item):
     current = self.character_sheet.get_weapon()
     self.gold += current.cost - item.cost
@@ -68,8 +71,8 @@ class CharacterComponent(Component):
     self.surface = pygame.Surface(size)
     self.name = Label((0, 0), font, character.name, color=color, background=background)
     left_space = 20
-    self.hp = Label((left_space, 30), font, 'HP: {}'.format(self.run.base_hp), color=color, background=background)
-    self.damage = Label((left_space, 60), font, 'Damage: {}'.format(self.run.base_damage + self.run.weapon.damage),
+    self.hp = Label((left_space, 30), font, 'HP: {}'.format(self.run.hp), color=color, background=background)
+    self.damage = Label((left_space, 60), font, 'Damage: {}'.format(self.run.damage),
                         color=color, background=background)
     self.weapon = Label((left_space, 120), font, 'Weapon: {}'.format(self.run.weapon.name),
                         color=color, background=background)
@@ -89,7 +92,12 @@ class CharacterComponent(Component):
     self.dirty = True
 
 class RunCharacter:
-  pass
+  @property
+  def hp(self):
+    return self.base_hp
+  @property
+  def damage(self):
+    return self.base_damage + self.weapon.damage
 
 class ShopComponent(Component):
   def __init__(self, position, size, buy_func, font, color, background, focus, disabled):
@@ -112,18 +120,19 @@ class ShopComponent(Component):
       for item in self.stock:
         item.dirty = True
         item.update(self.surface)
-      screen.blit(self.surface, self.position)
+      self.dirty = False
     else:
       for item in self.stock:
         item.update(self.surface)
+    screen.blit(self.surface, self.position)
   def handle_event(self, event):
+    if hasattr(event, 'pos'):
+      orig_pos = event.pos
+      event.pos = (event.pos[0] - self.position[0], event.pos[1] - self.position[1])
     for item in self.stock:
-      if hasattr(event, 'pos'):
-        orig_pos = event.pos
-        event.pos = (event.pos[0] - self.position[0], event.pos[1] - self.position[1])
       item.handle_event(event)
-      if hasattr(event, 'pos'):
-        event.pos = orig_pos
+    if hasattr(event, 'pos'):
+      event.pos = orig_pos
   def set_stock(self, gold, weapon, stock):
     self.stock = []
     for idx, item in enumerate(item for item in stock if item.name != weapon.name):
