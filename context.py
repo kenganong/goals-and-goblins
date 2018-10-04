@@ -29,6 +29,8 @@ def set_theme():
   grey = pygame.Color(50, 50, 50)
   green = pygame.Color(0, 150, 0)
   bright_green = pygame.Color(0, 200, 0)
+  blue = pygame.Color(0, 0, 150)
+  bright_blue = pygame.Color(0, 0, 200)
   theme.background_color = black
   theme.label_text_color = white
   theme.entry_text_color = white
@@ -36,6 +38,8 @@ def set_theme():
   theme.button_text_color = white
   theme.button_color = green
   theme.button_focus_color = bright_green
+  theme.button_active_color = blue
+  theme.button_active_focus_color = bright_blue
   theme.button_disabled_color = grey
 
 class Theme:
