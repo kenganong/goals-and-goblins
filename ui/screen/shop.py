@@ -16,7 +16,7 @@ class Shop:
     self.weapons.append(Weapon('Sword', 3, 8))
     self.character = context['profile'].characters[0] # TODO: while one character is supported
     self.gold = self.character.gold
-    self.wallet = Label((0, 0), theme.font, 'Gold: {}'.format(self.gold),
+    self.wallet = Label((0, 0), theme.font, 'Gold: {}'.format(self.gold), width=150,
                       color=theme.label_text_color, background=theme.background_color)
     self.enemies = Label((0, 0), theme.font, 'Experience: {}'.format(self.character.enemies),
                          color=theme.label_text_color, background=theme.background_color)
@@ -64,6 +64,7 @@ class CharacterComponent(Component):
   def __init__(self, position, size, character, weapon, font, color, background):
     super().__init__(position)
     self.run = RunCharacter()
+    self.run.name = character.name
     self.run.base_hp = 50
     self.run.base_damage = 1
     self.run.weapon = weapon
@@ -95,6 +96,9 @@ class RunCharacter:
   @property
   def hp(self):
     return self.base_hp
+  @hp.setter
+  def hp(self, value):
+    self.base_hp = value
   @property
   def damage(self):
     return self.base_damage + self.weapon.damage
